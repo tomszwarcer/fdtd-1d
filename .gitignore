@@ -3,3 +3,5 @@
 *.out
 *.csv
 .DS_Store
+output/*.png
+output/movies/*

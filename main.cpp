@@ -21,15 +21,15 @@ int main(){
     //Note we set H[node_num-1]=0 here.
     array<double,node_num> H = {};
 
-    //max number of time steps
-    int max_time = 250;
+    //number of time steps
+    int num_time_steps = 250;
 
     ofstream H_file;
     H_file.open("h.csv");
     ofstream E_file;
     E_file.open("e.csv");
 
-    for (int time_step = 0; time_step < max_time; ++time_step){
+    for (int time_step = 0; time_step < num_time_steps; ++time_step){
         E_file << time_step << ",";
         H_file << time_step << ",";
 
