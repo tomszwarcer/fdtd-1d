@@ -13,8 +13,6 @@ int main(){
 
     //Constants
     const double S_c = 1.;
-    const double er = 1.;
-    const double mur = 1.;
     const double z0 = 376.7;
 
     //Number of nodes
@@ -22,11 +20,25 @@ int main(){
 
     //E and H arrays
     array<double,node_num> E = {};
-    //Note we set H[node_num-1]=0 here.
     array<double,node_num> H = {};
 
+    //dielectric arrays
+    array<double,node_num> er = {};
+    array<double,node_num> mur = {};
+    ofstream dielec_file;
+    dielec_file.open("dielectrics.csv");
+    for (int k = 0; k < node_num; ++k){
+        mur[k] = 1.;
+        er[k] = 1.;
+        if (140 <= k && k <= 180){
+            er[k] = 5.;
+        }
+        dielec_file << er[k] << ",";
+    }
+
+
     //number of time steps
-    int num_time_steps = 250;
+    int num_time_steps = 650;
 
     //position of TFSF boundary
     int boundary = 50;
@@ -38,27 +50,27 @@ int main(){
 
     for (int time_step = 0; time_step < num_time_steps; ++time_step){        
 
-        //Update final H node
+        //Update final H node (ABC)
         H[node_num - 1] = H[node_num - 2];
 
         //H update
         for (int i = 0; i < node_num - 1; ++i){
-            H[i] += + (S_c/(mur*z0))*(E[i+1]-E[i]);
+            H[i] += + (S_c/(mur[i]*z0))*(E[i+1]-E[i]);
         }
 
         //Correction for TFSF boundary
-        H[boundary - 1] -= (S_c/(mur*z0))*E_incident(time_step, boundary, boundary);
+        H[boundary - 1] -= (S_c/(mur[boundary - 1]*z0))*E_incident(time_step, boundary, boundary);
 
-        //Update first E node
+        //Update first E node (ABC)
         E[0] = E[1];
 
         //E update
         for (int j = 1; j < node_num; ++ j){
-            E[j] += (S_c*z0/er)*(H[j]-H[j-1]);
+            E[j] += (S_c*z0/er[j])*(H[j]-H[j-1]);
         }
 
         //Correction for TFSF boundary
-        E[boundary] += (S_c/sqrt(er*mur))*E_incident(time_step + 0.5,boundary - 0.5,boundary);
+        E[boundary] += (S_c/sqrt(er[boundary]*mur[boundary]))*E_incident(time_step + 0.5,boundary - 0.5,boundary);
 
         //Write to files
         E_file << time_step;
