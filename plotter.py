@@ -12,7 +12,7 @@ for line in infile.readlines():
     time = str(line[0])
     if int(time) % 5 == 0:
         data = [float(entry) for entry in line[1:]]
-        plt.ylim(-1,1)
+        plt.ylim(-1.1,1.1)
         plt.plot(x,data)
         plt.savefig("./output/" + time + ".png")
         plt.close()
