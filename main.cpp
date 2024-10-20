@@ -30,6 +30,8 @@ int main(){
     E_file.open("e.csv");
 
     for (int time_step = 0; time_step < num_time_steps; ++time_step){
+        
+        //First column of CSV
         E_file << time_step << ",";
         H_file << time_step << ",";
 
@@ -51,6 +53,5 @@ int main(){
         }
         E_file << endl;
     }
-
 }
 
