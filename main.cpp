@@ -22,7 +22,7 @@ int main(){
     array<double,node_num> H = {};
 
     //number of time steps
-    int num_time_steps = 250;
+    int num_time_steps = 500;
 
     ofstream H_file;
     H_file.open("h.csv");
@@ -32,19 +32,25 @@ int main(){
     for (int time_step = 0; time_step < num_time_steps; ++time_step){
         
         //First column of CSV
-        E_file << time_step << ",";
+        E_file << time_step << "," << E[0];
         H_file << time_step << ",";
 
-        //hard-wired E source
-        E[0] = exp(-(time_step - 30.)*(time_step - 30.)/100.);
-        E_file << E[0];
+        //Update final H node
+        H[node_num - 1] = H[node_num - 2];
 
         //H update
         for (int i = 0; i < node_num - 1; ++i){
             H[i] = H[i] + (S_c/(mur*z0))*(E[i+1]-E[i]);
             H_file << H[i] << ",";
         }
+        
         H_file << H[node_num - 1] << endl;
+
+        //Additive E source
+        E[node_num/2] += exp(-(time_step - 30.)*(time_step - 30.)/100.);
+
+        //Update first E node
+        E[0] = E[1];
 
         //E update
         for (int j = 1; j < node_num; ++ j){
