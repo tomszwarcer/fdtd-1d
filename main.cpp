@@ -26,7 +26,7 @@ int main(){
     array<double,node_num> H = {};
 
     //number of time steps
-    int num_time_steps = 300;
+    int num_time_steps = 250;
 
     //position of TFSF boundary
     int boundary = 50;
@@ -47,7 +47,7 @@ int main(){
         }
 
         //Correction for TFSF boundary
-        H[boundary - 1] -= (S_c/(mur*z0))*E_incident(time_step - 0.5, boundary, boundary);
+        H[boundary - 1] -= (S_c/(mur*z0))*E_incident(time_step, boundary, boundary);
 
         //Update first E node
         E[0] = E[1];
@@ -58,7 +58,7 @@ int main(){
         }
 
         //Correction for TFSF boundary
-        E[boundary] += (S_c/sqrt(er*mur))*E_incident(time_step - 0.5,boundary - 0.5,boundary);
+        E[boundary] += (S_c/sqrt(er*mur))*E_incident(time_step + 0.5,boundary - 0.5,boundary);
 
         //Write to files
         E_file << time_step;
