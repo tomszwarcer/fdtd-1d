@@ -27,6 +27,7 @@ int main(){
     array<double,node_num> mur = {};
     ofstream dielec_file;
     dielec_file.open("dielectrics.csv");
+    //populate dielectric arrays
     for (int k = 0; k < node_num; ++k){
         mur[k] = 1.;
         er[k] = 1.;
@@ -35,7 +36,7 @@ int main(){
         }
         dielec_file << er[k] << ",";
     }
-
+    dielec_file.close();
 
     //number of time steps
     int num_time_steps = 650;
@@ -82,5 +83,7 @@ int main(){
         E_file << endl;
         H_file << endl;
     }
+    E_file.close();
+    H_file.close();
 }
 
