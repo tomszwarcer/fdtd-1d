@@ -37,7 +37,7 @@ for line in infile.readlines():
         plt.ylabel("E field z component (V/m)")
         plt.plot(x,data)
         plt.axvspan(dielec_range[0],dielec_range[1],alpha = 0.4,color="red")
-        plt.text(dielec_range[0]+(dielec_range[1]-dielec_range[0])/6,0.9,"ε_0 = " + str(dielec_data[dielec_range[0]]))
+        plt.text(dielec_range[0]+(dielec_range[1]-dielec_range[0])/6,0.9,"ε_r = " + str(dielec_data[dielec_range[0]]))
         plt.savefig("./output/" + time + ".png")
         plt.close()
 
