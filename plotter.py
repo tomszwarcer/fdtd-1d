@@ -11,8 +11,9 @@ infile = open("e.csv")
 dielectrics = open("dielectrics.csv")
 
 #Process dielectric data
-dielec_data = [(float(i)-1)/10 for i in dielectrics.readlines()[0].split(",")[:-1]]
+dielec_data = [float(i) for i in dielectrics.readlines()[0].split(",")[:-1]]
 dielectrics.close()
+dielec_range = [i for i in range(len(dielec_data)) if dielec_data[i] != dielec_data[i-1]]
 
 node_num = 200
 filenames = []
@@ -32,8 +33,11 @@ for line in infile.readlines():
 
         #plot
         plt.ylim(-1.1,1.1)
+        plt.xlabel("Node position (arb. units)")
+        plt.ylabel("E field z component (V/m)")
         plt.plot(x,data)
-        plt.plot(x,dielec_data)
+        plt.axvspan(dielec_range[0],dielec_range[1],alpha = 0.4,color="red")
+        plt.text(dielec_range[0]+(dielec_range[1]-dielec_range[0])/6,0.9,"ε_0 = " + str(dielec_data[dielec_range[0]]))
         plt.savefig("./output/" + time + ".png")
         plt.close()
 
@@ -42,7 +46,7 @@ for line in infile.readlines():
 infile.close()
 
 #make the gif from images
-with imageio.get_writer('./output/movies/e.gif', mode='I') as writer:
+with imageio.get_writer('./output/movies/e.gif', mode='I', loop = 100) as writer:
     for filename in filenames:
         image = imageio.imread(filename)
         writer.append_data(image)

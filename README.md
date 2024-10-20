@@ -2,7 +2,6 @@ Finite difference time domain simulation of Maxwell's equations
 
 ## Outline
 
-- Code for E, H field position and time generation.
-    - Output will be two CSVs (E/H) with a column for time, and columns for x.
-- Code to generate plots of E (or H) at each time, and compile them into a movie
-    - Using Python
+Sends a Gaussian pulse towards a region of dielectric constant != 1. Supports only a constant permittivity in this region.
+
+![Example E field](./output/movies/e_example.gif)
